@@ -5,7 +5,7 @@ class Date{
 	private int mois;
 	private int jour;
 
-	//variable
+	//variables
 	static int test=0;
 
 	//Constructeurs
@@ -13,6 +13,10 @@ class Date{
 		annee = a;
 		mois = m;
 		jour = j;
+		if(!this.estValide()){
+			this.corrige();
+			this.estValide();
+		}
 	}
 	public Date(){
 		annee = 2016;
@@ -27,8 +31,21 @@ class Date{
 
 	//Setters
 	public void setAnnee(int a){annee = a;}
-	public void setMois(int m){mois = m;}
-	public void setJour(int j){jour = j;}
+	public void setMois(int m){
+		mois = m;
+		if(this.getMois() < 0 || this.getMois() > 12){
+			test=1;
+			this.corrige();
+		}
+
+	}
+	public void setJour(int j){
+		jour = j;
+		if(this.compteJours()<this.getJour()){
+			test=2;
+			this.corrige();
+		}
+	}
 
 	public String toString(){
 		return this.jour + "/" + this.mois + "/" + this.annee;
@@ -52,7 +69,8 @@ class Date{
 			if(this.estBissextile(this.getAnnee())){
 				jour=29;
 			}
-			else{jour=28;}}
+			else{jour=28;}
+		}
 		else{
 			if(this.getMois()>7){
 				if (this.getMois()%2==0) {
@@ -77,22 +95,28 @@ class Date{
 	public boolean estValide(){
 		boolean verif=false;
 
-		if(this.getMois() > 0 && this.getMois() < 13){
-			test++;
+		if(this.getMois() < 0 || this.getMois() > 12){
+			test=1;
 		}
-		if(this.compteJours()==this.getJour()){
-			test++
+		if(this.compteJours()<this.getJour()){
+			test=2;
+		}
+		if(test==0){
+			verif=true;
 		}
 		return verif;
 	}
 
 	//Cette methode est privee car il s'agit d'une methode de classe (justification oubliee sur le site)
 	private void corrige(){
-		if(test == 0){
+		if(test == 1){
 			this.setMois(1);
 		}
-		else if(test == 1){
-			this.setJour(1);
+		else{
+			if(test == 2){
+				this.setJour(1);
+			}
 		}
+		test=0;
 	}
 }

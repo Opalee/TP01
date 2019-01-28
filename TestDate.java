@@ -12,10 +12,6 @@ class TestDate{
 
 		Date date1 = new Date(),
 		date2 = new Date(j,m,a);
-
-		while(!date2.estValide()){
-			date2.corrige();
-		}
 		
 		System.out.println(date2.estBissextile(date2.getAnnee()));
 
